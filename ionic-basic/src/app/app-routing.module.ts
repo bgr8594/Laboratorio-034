@@ -19,11 +19,20 @@ const routes: Routes = [
         loadChildren: () => import('./alumnos/alumnos.module').then( m => m.AlumnosPageModule)
       },
       {
-        path:':idAlumno',
+        path:':recetas',
         loadChildren: () => import('./alumnos/detalle-alumno/detalle-alumno.module').then( m => m.DetalleAlumnoPageModule)
       }
     ]
   },
+  {
+    path: 'recetas',
+    loadChildren: () => import('./recetas/recetas.module').then( m => m.RecetasPageModule)
+  },
+  {
+    path: 'detalle-receta',
+    loadChildren: () => import('./detalle-receta/detalle-receta.module').then( m => m.DetalleRecetaPageModule)
+  },
+
 ];
 
 @NgModule({
