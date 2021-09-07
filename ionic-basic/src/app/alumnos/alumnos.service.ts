@@ -9,9 +9,9 @@ import { HttpClient } from '@angular/common/http';
 
 export class AlumnosService {
 
-  private alumnos: Alumno[] = 
+  private alumnos: Alumno[] =
   [
-      
+
     {
       id: '1',
       nombre: 'Fernando',
@@ -45,9 +45,7 @@ export class AlumnosService {
   }
 
   getAlumno(idAlumno: string){
-    return {...this.alumnos.find((alumno: Alumno)=>{
-      return alumno.id === idAlumno
-    })};
+    return {...this.alumnos.find((alumno: Alumno)=>alumno.id === idAlumno)};
   }
 
   agregarAlumno(nombre: string,
@@ -56,7 +54,7 @@ export class AlumnosService {
     correo: string){
       this.alumnos.push(
         {
-        nombre, 
+        nombre,
         edad,
         matricula,
         correo,
@@ -65,17 +63,15 @@ export class AlumnosService {
       );
     }
 
-    borrarAlumno(idAlumno : string){
-      this.alumnos = this.alumnos.filter((alumno: Alumno)=>{
-        return alumno.id !=idAlumno
-      });
+    borrarAlumno(idAlumno: string){
+      this.alumnos = this.alumnos.filter((alumno: Alumno)=>alumno.id !==idAlumno);
     }
-    
-    getPersonajes() :Observable<any>{
+
+    getPersonajes(): Observable<any>{
       return this.http.get<any>(`http://swapi.dev/api/people/`,{});
     }
-    
-    getPersonaje(idPersonaje:string): Observable<any>{
+
+    getPersonaje(idPersonaje: string): Observable<any>{
       return this.http.get<any>(`http://swapi.dev/api/people/${idPersonaje}`,{});
     }
 
