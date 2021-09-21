@@ -4,7 +4,8 @@ import { MenuElement } from './menu.model';
 
 @Component({
   selector: 'app-float-menu',
-  templateUrl: './float-menu.component.html'
+  templateUrl: './float-menu.component.html',
+  styleUrls: ['float.component.scss'],
 })
 export class FloatMenuComponent implements OnInit {
 
