@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Destinos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item>
+        <ion-label>
+            Destino
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="lugar.nombre"></ion-input>
+    </ion-item>
+    <ion-item-divider>
+        <ion-button type="button" color="primary" size="larger" (click)="altaLugar()">Alta destino</ion-button>
+    </ion-item-divider>
+    <ion-item-divider></ion-item-divider>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-text>
+                    Destino
+                </ion-text>
+            </ion-col>
+            <ion-col>
+                <ion-text>
+                    Ubicacion
+                </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let lugar of destinos">
+            <ion-col>
+                <ion-text>
+                    {{lugar.nombre}}
+                </ion-text>
+            </ion-col>
+            <ion-col>
+                <ion-text>
+                    {{lugar.ubicacion}}
+                </ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
