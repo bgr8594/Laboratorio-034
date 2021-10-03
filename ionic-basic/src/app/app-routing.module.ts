@@ -33,9 +33,26 @@ const routes: Routes = [
     loadChildren: () => import('./detalle-receta/detalle-receta.module').then( m => m.DetalleRecetaPageModule)
   },
   {
-    path: 'tabs',
+    path: 'tabs', canActivate:[AuthGuard],
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: ()=> import('./login/login.module').then(m=>m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: ()=> import('./register/register.module').then(m=>m.RegisterPageModule)
+  },
+  {
+    path: 'admin', canActivate:[AuthGuard],
+    loadChildren: ()=> import('./admin/admin.module').then(m=>m.AdminPageModule)
+  },
+{
+  path:'destinos',canActivate:[AuthGuard],
+  loadChildren: ()=> import('./destinos/destinos.module').then(m=>m.DestinosPageModule)
+}
+/*
 <<<<<<< HEAD
   {
     path: 'login',
@@ -49,9 +66,13 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   },
+  {
+    path: 'destinos',
+    loadChildren: () => import('./destinos/destinos.module').then( m => m.DestinosPageModule)
+  },
 =======
 >>>>>>> ionic-basic-1848881
-];
+*/];
 
 @NgModule({
   imports: [
