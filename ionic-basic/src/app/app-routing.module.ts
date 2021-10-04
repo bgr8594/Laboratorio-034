@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'admin', canActivate:[GuardsGuard],
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   },
+  {
+    path: 'destinos', canActivate:[GuardsGuard],
+    loadChildren: () => import('./destinos/destinos.module').then( m => m.DestinosPageModule)
+  },
 ];
 
 @NgModule({
