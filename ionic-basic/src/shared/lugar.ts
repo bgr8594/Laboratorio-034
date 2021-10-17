@@ -1,4 +1,7 @@
 export class Lugar{
+    id(id: any, lugar: Lugar) {
+      throw new Error('Method not implemented.');
+    }
     nombre: string;
     ubicacion?:{latitud:string, longitud:string}
 

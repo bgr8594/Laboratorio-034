@@ -1,21 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Lugar } from 'src/shared/lugar';
 import { LugaresService } from '../services/lugares.service';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-destinos',
   templateUrl: './destinos.page.html',
   styleUrls: ['./destinos.page.scss'],
 })
-export class DestinosPage implements OnInit {
+export class DestinosPage implements OnInit,OnDestroy {
+
   lugar:Lugar= new Lugar();
   destinos:any[]=[];
   ionicForm:FormGroup;
   estado:string="Alta destino";
   editando:boolean=false;
+  latitud: number;
+  longitud: number;
+  subscription: Subscription;
+
+
   constructor(private lugaresService: LugaresService,
      private formBuilder:FormBuilder ) { }
+     ngOnDestroy():void {
+      if(this.subscription){
+        this.subscription.unsubscribe();
+      }
+     }
 
   ngOnInit() {
     this.buildForm();
@@ -29,9 +41,18 @@ export class DestinosPage implements OnInit {
         });
       },
       error=>{console.error(error)}
-      )
+      );
+      this.subscription=this.getLugares();
   }
 
+  getLugares(): Subscription{
+    return this.lugaresService.getLugaresApi().subscribe((response: Lugar[])=>{
+      this.destinos = response
+    }, error=>{
+      console.error();
+    });
+  }
+  
 
   editarLugar(id: any, lugar: any){
   this.editando=true;
@@ -41,12 +62,30 @@ export class DestinosPage implements OnInit {
   }
 
   eliminarLugar(id: any){
+    //Borrar lugar desde firestore
+    /*
+    this.lugaresService.deleteLugar(id).then(response=>{
     this.estado="Alta destino";
     this.editando=false;
     this.ionicForm.reset();
-    this.lugaresService.deleteLugar(id);
+    }).catch(error=>{
+      console.error(error);
+    });
   }
+*/
 
+//borrar lugar atraves de api-->firestore
+this.lugaresService.borrarLugarApi(id).subscribe((response: any)=>{
+  if(response){
+    this.estado = "Alta destino";
+    this.editando = false;
+    this.ionicForm.reset();
+    this.subscription = this.getLugares();
+  }
+  }, error=>{
+  console.error(error);
+  });
+}
 
   altaLugar(){
     this.lugaresService.altalugar(this.lugar);
@@ -56,14 +95,27 @@ export class DestinosPage implements OnInit {
   submitForm(){
     if(this.ionicForm.valid){
       this.lugar.nombre = this.ionicForm.get('nombre').value;
+      this.lugar.latitud = this.latitud;
+      this.lugar.longitud = this.longitud; 
       if(!this.editando){
+        /*
         this.lugaresService.altalugar(this.lugar).then((e:any)=>{
           this.ionicForm.reset();
         }).catch(e=>{
           console.error(e);
-        });        
+        });
+        */
+       //alta de lugar desde api
+       this.lugaresService.altaLugarApi(this.lugar).subscribe((reponse: any)=>{
+        this.subscription = this.getLugares();
+        this.ionicForm.reset();
+      }, error=>{
+        console.log(error);
+      });
+
       } else{
-        this.lugaresService.updateLugares(this.lugar.id, this.lugar).then(e=>{
+        /*
+        this.lugaresService.updateLugares(this.lugar, this.lugar).then(e=>{
           this.editando= false;
           this.estado = "Alta destino";
           this.lugar = new Lugar();
@@ -71,16 +123,62 @@ export class DestinosPage implements OnInit {
         }).catch(e=>{
           console.error(e);
         });
-      }
+        */
+       //editar el lugar a traves de api-->firestore
+       this.lugaresService.editarLugarApi(this.lugar.id, this.lugar).subscribe((response: any)=>{
+        this.editando= false;
+        this.estado = "Alta destino";
+        this.lugar = new Lugar();
+        this.subscription = this.getLugares();
+        this.ionicForm.reset();
+      }, error=>{
+        console.error(error);
+      });
     }
   }
+}
 
-  buildForm(){
-    this.ionicForm = this.formBuilder.group(
-      {nombre: new FormControl('',{validators:[ Validators.required]})
+cancelarEdicion(){
+  this.estado = "Alta destino";
+  this.editando = false;
+  this.ionicForm.reset();
+  this.lugar = new Lugar();
+}
       
-    }
-      );
-  }
+    
+  
 
+
+  
+      buildForm(){
+        this.ionicForm = this.formBuilder.group(
+          {
+            nombre: new FormControl('',{validators: [Validators.required]})
+          }
+        );
+      }
+    
+      hasError: any = (controlName: string, errorName: string) => {
+        return !this.ionicForm.controls[controlName].valid &&
+          this.ionicForm.controls[controlName].hasError(errorName) &&
+          this.ionicForm.controls[controlName].touched;
+      }  
+    
+    
+      getPosition(): Promise<any> {
+        return new Promise((resolve: any, reject: any): any => {
+          navigator.geolocation.getCurrentPosition((resp: any) => {
+            this.latitud = resp.coords.latitude;
+            this.longitud = resp.coords.longitude;
+          },
+          (err: any) => {
+            if ( err.code === 1 ) {
+              alert('Favor de activar la geolocalización en tu navegador y recargar la pantalla.');
+            }
+            this.latitud = null;
+            this.longitud = null;
+          }, {timeout: 5000, enableHighAccuracy: true });
+        });
+    
+      } 
 }

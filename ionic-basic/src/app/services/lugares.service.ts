@@ -2,14 +2,21 @@ import { Injectable } from '@angular/core';
 import { Lugar } from 'src/shared/lugar';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LugaresService {
-  dbFirestore: any;
 
-  constructor(private angularFirestore:AngularFirestore) {}
+    private basePath: string="http://localhost:8090/post";
+    constructor(private dbFirestore: AngularFirestore,
+       private http:HttpClient){
+         
+       }
+  
+
+  
 
    altalugar(lugar:Lugar){
      const lugarTemp:any={
@@ -47,4 +54,20 @@ export class LugaresService {
     return this.dbFirestore.collection('lugar').doc(id).delete();
 
   }
+
+  getLugaresApi() :Observable<Lugar[]>{
+    return this.http.get<any>(`${this.basePath}/list`,{});
+    }
+    
+    altaLugarApi(lugar: Lugar){
+    return this.http.post(`${this.basePath}/add`, lugar);
+    }
+    
+    borrarLugarApi(id: string){
+    return this.http.delete(`${this.basePath}/${id}/delete`, {});
+    }
+    
+    editarLugarApi(id: string, lugar: Lugar){
+    return this.http.put(`${this.basePath}/${id}/update`,lugar,{});
+    }
 }
