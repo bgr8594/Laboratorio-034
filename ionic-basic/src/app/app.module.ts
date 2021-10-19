@@ -9,8 +9,7 @@ import { ComponentesModule } from './componentes/componentes.module';
 import {​​​​​​AngularFireModule}​​​​​​ from'angularfire2';
 import {​​​​​​AngularFireAuthModule}​​​​​​ from'angularfire2/auth';
 import {​​​​​​ environment }​​​​​​ from'src/environments/environment';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import{AngularFirestoreModule} from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,9 +18,7 @@ import { FormsModule } from '@angular/forms';
    HttpClientModule,
   AngularFireModule.initializeApp(environment.firebaseConfig),
   AngularFireAuthModule,
-  ReactiveFormsModule,
-  FormsModule
-],
+  AngularFirestoreModule],
   providers: [HttpClientModule, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

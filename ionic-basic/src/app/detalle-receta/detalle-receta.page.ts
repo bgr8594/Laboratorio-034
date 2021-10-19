@@ -3,6 +3,7 @@ import { ActivatedRoute,  Router } from '@angular/router';
 import { Receta } from '../recetas/receta.model';
 import { RecetaService } from '../recetas/receta.service';
 
+
 @Component({
   selector: 'app-detalle-receta',
   templateUrl: './detalle-receta.page.html',
@@ -18,6 +19,7 @@ export class DetalleRecetaPage implements OnInit {
      private recetaService: RecetaService) { }
 
   ngOnInit() {
+
     this.activatedRoute.paramMap.subscribe(
       paraMap =>{
         this.idReceta = Number.parseInt(paraMap.get('idReceta'), 10);
