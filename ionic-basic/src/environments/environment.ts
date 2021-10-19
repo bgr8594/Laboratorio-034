@@ -11,7 +11,8 @@ export const environment = {
     storageBucket: "login-ng2-1b604.appspot.com",
     messagingSenderId: "1033846420757",
     appId: "1:1033846420757:web:0380f5646c40cfb6e0651c"
-  }
+  },
+  apiKeyGoogleMaps: "AIzaSyCNduScdIFtfovG5JBn1kr_Sz_ID-HJ1jI"
 };
 
 /*
