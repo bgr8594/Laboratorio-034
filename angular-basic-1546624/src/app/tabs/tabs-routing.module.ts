@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
@@ -10,27 +8,25 @@ const routes: Routes = [
     component: TabsPage,
     children:[
       {
-
-      
-      path:'alumnos',
-      loadChildren: () => import('../alumnos/alumnos.module').then(m=>m.AlumnosPageModule)
+        path:'alumnos',
+        loadChildren : () => import('../alumnos/alumnos.module').then(m=>m.AlumnosPageModule)
       }
       ,
       {
-        path:'recetas',
-        loadChildren:()=>import('../recetas/recetas.module').then(m=>m.RecetasPageModule)
+        path: 'recetas',
+        loadChildren: () => import('../recetas/recetas.module').then(m=>m.RecetasPageModule)
       },
       {
         path:'',
         redirectTo: '/tabs/alumnos',
-        pathMatch:'full'
+        pathMatch: 'full'
       }
     ]
   },
   {
-    path:'',
-    redirectTo:'/tabs/alumnos',
-    pathMatch:'full'
+    path: '',
+    redirectTo: '/tabs/alumnos',
+    pathMatch: 'full'
   }
 ];
 

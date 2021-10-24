@@ -1,5 +1,8 @@
 export class Lugar {
+    id?: string;
     nombre: string;
+    latitud:number; 
+    longitud:number;
     ubicacion?:{latitud:string, longitud:string}
   
        constructor(){
