@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from '../alumno.model';
 import { AlumnosService } from '../alumnos.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-alumno',
@@ -12,19 +12,19 @@ export class DetalleAlumnoPage implements OnInit {
 
   idAlumno: string;
   alumno: Alumno;
-  constructor(private activateRoute: ActivatedRoute, private alumnoService: AlumnosService,
-    private router: Router) { }
+  constructor(private activateRouter: ActivatedRoute, 
+    private router: Router, private alumnoService: AlumnosService) { }
 
   ngOnInit() {
-    this.activateRoute.paramMap.subscribe(paramMap =>{
+    this.activateRouter.paramMap.subscribe(paramMap=>{
       this.idAlumno = paramMap.get('idAlumno');
       this.alumno = this.alumnoService.getAlumno(this.idAlumno);
-    })
+    });
   }
+
 
   borrar(){
     this.alumnoService.borrarAlumno(this.idAlumno);
+    this.router.navigate(['/alumnos']);
   }
-
-
 }
