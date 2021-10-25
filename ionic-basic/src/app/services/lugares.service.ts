@@ -13,7 +13,7 @@ export class LugaresService {
         nombre:lugar.nombre,
         ubicacion: {longitud:'',latitud:''}
       };
-      this.dbiFirestore.collection('lugar').add(lugarTemp);
+     return this.dbiFirestore.collection('lugar').add(lugarTemp);
     }
 
     async getLugares(destinos: Lugar[]){
@@ -34,4 +34,15 @@ export class LugaresService {
     });
     }
 
+    getLugaresChanges(){
+      return this.dbiFirestore.collection('lugar').snapshotChanges();
+    }
+
+    updateLugares(id: any, lugar: any){
+     return this.dbiFirestore.collection('lugar').doc(id).update(lugar);
+    }
+
+    deleteLugar(id: any){
+      return this.dbiFirestore.collection('lugar').doc(id).delete();
+    }
 }

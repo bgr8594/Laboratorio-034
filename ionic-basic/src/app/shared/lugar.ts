@@ -1,12 +1,14 @@
 export class Lugar {
-    nombre: string;
-ubicacion?: {latitud: string;longitud: string};
+  id?: string;
+  nombre: string;
+  ubicacion?: {latitud: string;longitud: string};
 
    constructor(){
        this.nombre='';
    }
-   public setUbicacion(latitud: string, Longiutd: string){
+   // eslint-disable-next-line @typescript-eslint/naming-convention
+   public setUbicacion(latitud: string, Longitud: string){
        this.ubicacion.latitud= latitud;
-       this.ubicacion.longitud = Longiutd;
+       this.ubicacion.longitud = Longitud;
 }
 }

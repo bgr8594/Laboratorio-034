@@ -5,7 +5,9 @@ import { User } from '../shared/user';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
+
   public isLoged: any = false;
   constructor(public afAuth: AngularFireAuth) {
     afAuth.authState.subscribe(user => this.isLoged = user);
