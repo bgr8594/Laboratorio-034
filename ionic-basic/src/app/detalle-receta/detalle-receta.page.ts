@@ -16,7 +16,9 @@ export class DetalleRecetaPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(    paraMap => {
       this.idReceta = Number.parseInt(paraMap.get('idReceta'));
+      console.log(this.idReceta);
       this.receta = this.recetaService.getReceta(this.idReceta);
+      console.log(this.receta);
     }
    );
   }

@@ -8,8 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  templateUrl: './login.page.html'
 })
 export class LoginPage implements OnInit {
 

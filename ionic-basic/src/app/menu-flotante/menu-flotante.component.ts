@@ -4,7 +4,8 @@ import { MenuElement } from './menu.model';
 
 @Component({
   selector: 'app-menu-flotante',
-  templateUrl: './menu-flotante.component.html'
+  templateUrl: './menu-flotante.component.html',
+  styleUrls: ['menu-flotante.scss'],
 })
 export class MenuFlotanteComponent implements OnInit {
 
