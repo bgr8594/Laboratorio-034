@@ -54,6 +54,10 @@ const routes: Routes = [
     path: 'destinos', canActivate:[GuardsGuard],
     loadChildren: () => import('./destinos/destinos.module').then( m => m.DestinosPageModule)
   },
+  {
+    path: 'galeria', canActivate:[GuardsGuard],
+    loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
+  },
 ];
 
 @NgModule({
