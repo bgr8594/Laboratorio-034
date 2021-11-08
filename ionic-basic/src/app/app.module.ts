@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import {AngularFireAuthModule} from 'angularfire2/auth';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment';
   entryComponents: [],
 
   imports: [ComponentesModule,BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
-  AngularFireModule.initializeApp(environment.firebaseConfig),AngularFirestoreModule ],
+  AngularFireModule.initializeApp(environment.firebaseConfig),AngularFirestoreModule,AngularFireAuthModule ],
 
  
   providers: [HttpClientModule, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

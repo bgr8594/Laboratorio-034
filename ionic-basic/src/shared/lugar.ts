@@ -1,8 +1,8 @@
 export class Lugar{
-    id(id: any, lugar: Lugar) {
-      throw new Error('Method not implemented.');
-    }
-    nombre: string;
+    id?: string;
+    nombre:string;
+    latitud:number;
+    longitud:number;
     ubicacion?:{latitud:string, longitud:string}
 
     constructor(){

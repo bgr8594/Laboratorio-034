@@ -60,6 +60,10 @@ const routes: Routes = [
   {
     path: 'galeria',canActivate:[AuthGuard],
     loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
+  },
+  {
+    path: 'segment-button',
+    loadChildren: () => import('./segment-button/segment-button.module').then( m => m.SegmentButtonPageModule)
   }
 
 ];
