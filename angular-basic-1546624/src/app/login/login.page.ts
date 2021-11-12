@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { ModalErrorComponent } from '../modal-error/modal-error.component';
 import { AuthService } from '../services/auth.service';
 import { User } from '../shared/user.class';
@@ -17,7 +17,8 @@ export class LoginPage implements OnInit {
   constructor(private autSvc: AuthService,
     private router: Router,
     private modalCtrl: ModalController,
-    private formBilder: FormBuilder) { }
+    private formBilder: FormBuilder,
+    public loadingController: LoadingController) { }
 
   ngOnInit() {
     this.buildForm();
@@ -27,10 +28,14 @@ export class LoginPage implements OnInit {
     const user = await this.autSvc.onLogin(this.user);
     if(user!=null && user.code ==undefined){
       console.log('Successfully logged in!');
-      this.router.navigate(['/home']);
+      setTimeout(() => {
+        this.loadingController.dismiss();
+        this.router.navigate(['/home']);
+      }, 650);
     }
     else{
       if(user.code){
+        this.loadingController.dismiss();
         if(user.code=='auth/wrong-password' || user.code =='auth/invalid-email' || user.code=='auth/argument-error' ||
         user.code =='auth/user-not-found'){
           this.openModal(user);
@@ -53,6 +58,7 @@ export class LoginPage implements OnInit {
     if(this.ionicForm.valid){
       this.user.email= this.ionicForm.get('email').value;
       this.user.password = this.ionicForm.get('password').value;
+      this.presentLoadingWithOptions();
       this.onLogin();
     }
   }
@@ -89,4 +95,18 @@ export class LoginPage implements OnInit {
 			this.ionicForm.controls[controlName].touched;
 
 	}
+
+  async presentLoadingWithOptions() {
+    const loading = await this.loadingController.create({
+      
+      message: 'Click the backdrop to dismiss early...',
+      
+      backdropDismiss: true
+    });
+
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed with role:', role);
+  }  
 }
