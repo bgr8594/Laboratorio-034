@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { promise } from 'selenium-webdriver';
 import { environment } from 'src/environments/environment';
 
 declare var google: any;

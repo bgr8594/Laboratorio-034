@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Receta } from '../recetas/receta.model';
 import { RecetaService } from '../recetas/receta.service';
@@ -17,15 +16,11 @@ export class DetalleRecetaPage implements OnInit {
     private activatedRoute:ActivatedRoute,
     private router: Router,
     private recetaService: RecetaService,
-    private firestore: AngularFirestore
+    
     ) { }
 
   ngOnInit() {
 
-    const usuario = {nombre:'Luis', activo:true,
-    fechanaci: 0};
-    this.firestore.collection('usuario').add(usuario);
-    
     this.activatedRoute.paramMap.subscribe(
       paramMap =>{
         this.idReceta = Number.parseInt(paramMap.get('idReceta'));

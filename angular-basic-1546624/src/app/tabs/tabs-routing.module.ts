@@ -14,7 +14,7 @@ const routes: Routes = [
       ,
       {
         path: 'galeria',
-        loadChildren: () => import('../recetas/').then(m=>m.RecetasPageModule)
+        loadChildren: () => import('../galeria/galeria.module').then(m=>m.GaleriaPageModule)
       },
       {
         path:'',

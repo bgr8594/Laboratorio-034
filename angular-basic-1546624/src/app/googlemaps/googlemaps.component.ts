@@ -2,8 +2,8 @@ import { Component, OnInit, Renderer2, Input, ViewChild, ElementRef, Inject } fr
 import { ModalController } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation'; 
 import { GooglemapsService } from './googlemaps.service';
-import { inject } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
+
 declare var google: any;
 
 

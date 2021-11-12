@@ -52,10 +52,11 @@ const routes: Routes = [
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   },
   {
-    path: 'destinos',
+    path: 'destinos', canActivate:[AuthGuard],
     loadChildren: () => import('./destinos/destinos.module').then( m => m.DestinosPageModule)
-  },  {
-    path: 'galeria',
+  },
+  {
+    path: 'galeria', canActivate:[AuthGuard],
     loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
   }
 

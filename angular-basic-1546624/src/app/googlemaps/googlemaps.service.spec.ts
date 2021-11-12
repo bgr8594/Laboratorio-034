@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { environment } from 'src/environments/environment';
 import { GooglemapsService } from './googlemaps.service';
 
 describe('GooglemapsService', () => {

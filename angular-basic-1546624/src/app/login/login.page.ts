@@ -90,5 +90,3 @@ export class LoginPage implements OnInit {
 
 	}
 }
-
-//practica 8
