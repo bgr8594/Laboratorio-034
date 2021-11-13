@@ -1,4 +1,4 @@
-package com.ionicbasic.fcfm;
+package com.capacitordemo.ionic;
 
 import com.getcapacitor.BridgeActivity;
 

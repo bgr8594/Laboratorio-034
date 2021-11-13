@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Recetas</ion-title>
+  <ion-toolbar style="margin-top:56px;">
+      <ion-title>Recetas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion list>
-      <ion-item *ngFor="let receta of recetas" [routerLink]="['/detalle-receta',receta.id]">
-      {{receta.nombre}}
+  <ion-list>
+      <ion-item *ngFor="let receta of recetas" [routerLink]="['/detalle-receta', receta.id]">
+          {{receta.nombre}}
       </ion-item>
-    </ion>
+  </ion-list>
 </ion-content>
