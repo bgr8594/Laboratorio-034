@@ -6,7 +6,7 @@ import { MenuElement } from './menu.model';
 @Component({
   selector: 'app-float-menu',
   templateUrl: './float-menu.component.html',
-  styleUrls: ['float.component.scss'],
+  styleUrls: ['float-menu.component.scss'],
 })
 export class FloatMenuComponent implements OnInit {
 
@@ -31,7 +31,7 @@ export class FloatMenuComponent implements OnInit {
         {nombre: 'Logout',enlace:'/home',
         icono:'log-out-outline'} 
       ];
-    } else{
+    }else{
       this.datosMenu =
       [
           {nombre: 'register',enlace:'/register',
@@ -65,7 +65,7 @@ export class FloatMenuComponent implements OnInit {
           {nombre: 'logout',enlace:'/home',
           icono:'log-out'}
         ];
-    } else{
+    }else{
       this.datosMenu =
       [
           {nombre: 'register',enlace:'/register',

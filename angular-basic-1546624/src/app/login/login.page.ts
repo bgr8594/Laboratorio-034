@@ -98,9 +98,7 @@ export class LoginPage implements OnInit {
 
   async presentLoadingWithOptions() {
     const loading = await this.loadingController.create({
-      
       message: 'Click the backdrop to dismiss early...',
-      
       backdropDismiss: true
     });
 

@@ -1,5 +1,7 @@
 {
   "name": "angular-basic-1546624",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

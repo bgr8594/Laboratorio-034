@@ -4,7 +4,6 @@ import { LugaresService } from '../services/lugares.service';
 import {FormGroup, FormBuilder, Validators, FormControl, AbstractControl} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { identifierModuleUrl } from '@angular/compiler';
 import { GooglemapsComponent } from '../googlemaps/googlemaps.component';
 
 @Component({
@@ -34,8 +33,18 @@ export class DestinosPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.getPosition();
     this.buildForm();
-    this.subscripcion = this.getLugares();
-   
+    this.lugaresService.getLugaresChanges().subscribe(resp => {
+      this.destinos = resp.map((e: any) => {
+        return {
+          id: e.payload.doc.id,
+          nombre: e.payload.doc.data().nombre,
+          latitud: e.payload.doc.data().latitud,
+          longitud:  e.payload.doc.data().longitud
+        }
+      });
+    }, error => {
+      console.error(error);
+    });
   }
 
 
@@ -55,17 +64,10 @@ export class DestinosPage implements OnInit, OnDestroy {
   }
 
   eliminarLugar(id: any) {
-    
-      this.lugaresService.borrarLugarApi(id).subscribe((response: any)=>{
-      if(response){
-        this.estado = "Alta destino";
-        this.editando = false;
-        this.ionicForm.reset();
-        this.subscripcion = this.getLugares();
-      }
-      }, error=>{
-      console.error(error);
-      });
+    this.estado = "Alta destino";
+    this.editando = false;
+    this.ionicForm.reset();
+    this.lugaresService.deleteLugar(id);
   }
 
 
