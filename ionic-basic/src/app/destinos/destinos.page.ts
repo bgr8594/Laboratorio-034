@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LugaresService } from '../services/lugares.service';
 import { Lugar } from '../shared/lugar';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import { GooglemapsComponent } from '../googlemaps/googlemaps.component';
 
 @Component({
   selector: 'app-destinos',
@@ -14,13 +16,14 @@ export class DestinosPage implements OnInit, OnDestroy{
   destinos: any[] = [];
   ionicForm: FormGroup;
   estado ='Alta destino';
-  editando= false;
+  editando = false;
   subscripcion: Subscription;
-  latitud:  number;
+  latitud: number;
   longitud: number;
 
   constructor(private lugaresService: LugaresService,
-  private formBuilder: FormBuilder) { }
+  private formBuilder: FormBuilder,
+  private modalController: ModalController) { }
   ngOnDestroy(): void {
     if(this.subscripcion){
       this.subscripcion.unsubscribe();
@@ -30,7 +33,9 @@ export class DestinosPage implements OnInit, OnDestroy{
   ngOnInit() {
     this.buildForm();
     this.getPosition();
-    this.lugaresService.getLugaresChanges().subscribe(
+    //Consulta de lugares por medio de snapshotChanges que consulta en tiempo real
+
+    /*this.lugaresService.getLugaresChanges().subscribe(
       response=>{
         this.destinos = response.map((e: any)=>({
             id: e.payload.doc.id,
@@ -38,14 +43,10 @@ export class DestinosPage implements OnInit, OnDestroy{
           }));
        },
       error=>{ console.error(error);}
-      );
+      );*/
       this.subscripcion = this.getLugares();
   }
-/**
-      this.subscripcion = this.lugarService.getLugaresApi().subscribe((response: Lugar[])=>{
-        this.destinos = response;
-      });
- */
+
 
       getLugares(): Subscription{
         return this.lugaresService.getLugaresApi().subscribe((response: Lugar[])=>{
@@ -95,13 +96,14 @@ export class DestinosPage implements OnInit, OnDestroy{
           console.log(error);
         });
       } else{
-        this.lugaresService.updateLugares(this.lugar.id, this.lugar).then(e=>{
+        this.lugaresService.editarLugarApi(this.lugar.id, this.lugar).subscribe((response: any)=>{
           this.editando= false;
           this.estado = 'Alta destino';
           this.lugar = new Lugar();
+          this.subscripcion = this.getLugares();
           this.ionicForm.reset();
-        }).catch(e=>{
-          console.error(e);
+        }, error=>{
+          console.error(error);
         });
       }
     }
@@ -122,6 +124,10 @@ export class DestinosPage implements OnInit, OnDestroy{
     );
   }
 
+  hasError: any = (controlName: string, errorName: string) => !this.ionicForm.controls[controlName].valid &&
+    this.ionicForm.controls[controlName].hasError(errorName) &&
+    this.ionicForm.controls[controlName].touched;
+
   getPosition(): Promise<any> {
     return new Promise((resolve: any, reject: any): any => {
     navigator.geolocation.getCurrentPosition((resp: any) => {
@@ -139,10 +145,42 @@ export class DestinosPage implements OnInit, OnDestroy{
     });
     }
 
+    async addDirection(){
+      const positionInput: any = {
+        lat: -2.898116,
+        lng: -78.99958149999999
+      };
+      if(this.latitud !== null){
+        positionInput.lat = this.latitud;
+        positionInput.lng = this.longitud;
+      }
 
-  hasError: any = (controlName: string, errorName: string) =>
+
+      const modalAdd = await this.modalController.create({
+        component: GooglemapsComponent,
+        mode: 'ios',
+        swipeToClose: true,
+        componentProps: {position: positionInput}
+      });
+
+      await modalAdd.present();
+
+      const {data} = await modalAdd.onWillDismiss();
+
+      if(data){
+        console.log('data->', data);
+        //this.cli
+        this.longitud = data.pos.lng;
+        this.latitud = data.pos.lat;
+        console.log('datos de ubiciacion actualizados, latitud: '+this.latitud+' \nlongitud:'+this.longitud);
+      }
+    }
+
+ /* hasError: any = (controlName: string, errorName: string) =>
     !this.ionicForm.controls[controlName].valid &&
     this.ionicForm.controls[controlName].hasError(errorName) &&
-    this.ionicForm.controls[controlName].touched;
+    this.ionicForm.controls[controlName].touched;*/
+
+
 
 }
