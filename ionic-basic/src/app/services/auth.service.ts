@@ -6,7 +6,7 @@ import { User } from '../shared/user';
   providedIn: 'root'
 })
 
-export class AuthService {
+export class  AuthService {
 
   public isLoged: any = false;
   constructor(public afAuth: AngularFireAuth) {
